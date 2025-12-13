@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAFSCB-2k24</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base styles and variables */
+  :root {
+    --neon-blue: #fc620f;
+    --dark-blue: #0a192f;
+    --medium-blue: #112240;
+    --light-blue: #233554;
+    --text-light: #e6f1ff;
+    --text-gray: #8892b0;
+    --transition: all 0.30s 
+ease;
+    --glow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+}    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Utility classes */
+        .container {
+            width: 97%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            display: inline-block;
+            margin-bottom: 10px;
+            text-shadow: var(--glow);
+            animation: glowPulse 2s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            from { text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
+            to { text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue); }
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--neon-blue);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: var(--glow);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow);
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), var(--glow);
+        }
+
+        /* Header and Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 25, 47, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        header.scrolled {
+            background: rgba(10, 25, 47, 0.98);
+            padding: 10px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            text-decoration: none;
+            text-shadow: var(--glow);
+        }
+
+        .logo span {
+            color: var(--text-light);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+            box-shadow: var(--glow);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section with Sliding Background */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.8);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 1;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: var(--neon-blue);
+            text-shadow: var(--glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-gray);
+        }
+
+        /* Featured Alumni Section */
+        .featured-alumni {
+            padding: 100px 0;
+            background: var(--medium-blue);
+        }
+
+        .alumni-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        
+        
+            .versity {
+      font-size: 0.95rem;
+    }
+    .subject {
+      font-size: 0.9rem;
+    }
+    .gmail {
+      font-size: 0.85rem;
+    }
+    .versity .icon, .subject .icon, .gmail .icon {
+      margin-right: 8px;
+      width: 18px;
+      height: 18px;
+      fill: #00b7eb;
+      transition: transform 0.3s ease;
+    }
+    .versity .icon:hover, .subject .icon:hover, .gmail .icon:hover {
+      transform: scale(1.2);
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .versity .value, .subject .value, .gmail .value {
+      color: #00b7eb;
+      font-style: italic;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px rgba(0, 183, 235, 0.5);
+    }
+    .versity .value:hover, .subject .value:hover, .gmail .value:hover {
+      background: linear-gradient(90deg, #00b7eb, #90ee90);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(0, 183, 235, 0.8), 0 0 20px rgba(144, 238, 144, 0.5);
+    }
+    .versity .value::after, .subject .value::after, .gmail .value::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #00b7eb, #90ee90);
+      bottom: -2px;
+      left: 0;
+      transition: width 0.3s ease;
+    }
+    .versity .value:hover::after, .subject .value:hover::after, .gmail .value:hover::after {
+      width: 100%;
+    }
+        
+            .watermark-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      z-index: -1;
+    }
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: auto;
+      opacity: 0.1;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      cursor: pointer;
+      animation: grow 10s linear forwards;
+    }
+    @keyframes grow {
+      0% {
+        transform: translate(-50%, -50%) scale(0.1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0.5;
+      }
+    }
+    .water-particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      animation: splash 1s ease-out forwards;
+    }
+    @keyframes splash {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: particleMove 15s infinite linear;
+    }
+    @keyframes particleMove {
+      0% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+    h1 {
+      text-align: center;
+      color: #00b7eb;
+      animation: fadeIn 2s ease-in;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .card {
+      background: linear-gradient(135deg, #1a1a40, #2a2a60);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInCard 0.5s forwards;
+    }
+    .card.matched {
+      border: 2px solid #00b7eb;
+      box-shadow: 0 0 15px rgba(0, 183, 235, 0.5);
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 183, 235, 0.5);
+    }
+    @keyframes fadeInCard {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .image-container {
+      position: relative;
+      display: inline-block;
+    }
+    .card a img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card a img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00b7eb;
+    }
+    .author-label {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .name {
+      font-size: 1.2rem;
+      color: #00b7eb;
+      font-weight: bold;
+      margin-top: 0.6rem;
+    }
+    .bio {
+      color: #ddd;
+      font-size: 1rem;
+      margin-top: 0.4rem;
+    }
+    .versity, .subject, .gmail {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: radial-gradient(circle, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border: 1px solid transparent;
+      border-image: linear-gradient(45deg, #00b7eb, #90ee90) 1;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin-top: 0.5rem;
+      transition: border-image 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.5s forwards;
+    }
+    .versity:hover, .subject:hover, .gmail:hover {
+      border-image: linear-gradient(45deg, #90ee90, #00b7eb) 1;
+      box-shadow: 0 0 10px rgba(0, 183, 235, 0.3);
+    }
+    .versity::before, .subject::before, .gmail::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 183, 235, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .versity:hover::before, .subject:hover::before, .gmail:hover::before {
+      opacity: 1;
+    }
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+        /* Success Stories Section */
+        .stories-section {
+            padding: 100px 0;
+            background: var(--dark-blue);
+        }
+
+        .stories-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .story-slider {
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(15, 240, 252, 0.2);
+        }
+
+        .story-slide {
+            display: none;
+            padding: 40px;
+            background: var(--medium-blue);
+            border-radius: 10px;
+            animation: fadeIn 1s ease;
+        }
+
+        .story-slide.active {
+            display: block;
+        }
+
+        .story-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .story-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid var(--neon-blue);
+            box-shadow: var(--glow);
+        }
+
+        .story-text {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: var(--text-gray);
+        }
+
+        .story-author {
+            font-weight: 700;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(15, 240, 252, 0.5);
+        }
+
+        .story-position {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .slider-btn {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+        }
+
+        .slider-btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark-blue);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 0;
+            background: var(--medium-blue);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 250px;
+            cursor: pointer;
+            border: 1px solid rgba(15, 240, 252, 0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay i {
+            color: var(--neon-blue);
+            font-size: 2rem;
+            text-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-blue);
+            color: var(--text-light);
+            padding: 70px 0 20px;
+            border-top: 1px solid rgba(15, 240, 252, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: var(--neon-blue);
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--neon-blue);
+            bottom: 0;
+            left: 0;
+            box-shadow: var(--glow);
+        }
+
+        .footer-column p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(15, 240, 252, 0.1);
+            border-radius: 50%;
+            color: var(--neon-blue);
+            transition: var(--transition);
+            border: 1px solid rgba(15, 240, 252, 0.3);
+        }
+
+        .social-links a:hover {
+            background: var(--neon-blue);
+            color: var(--dark-blue);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            padding-left: 5px;
+            text-shadow: 0 0 5px rgba(15, 240, 252, 0.5);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .alumni-card {
+                flex-direction: row;
+            }
+            
+            .alumni-img {
+                width: 40%;
+                height: auto;
+                min-height: 250px;
+            }
+            
+            .alumni-info {
+                width: 60%;
+            }
+            
+            .alumni-details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                min-width: auto;
+                margin-bottom: 2px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .alumni-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--dark-blue);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: var(--transition);
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .alumni-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .alumni-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .detail-item {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                min-width: auto;
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">BAFSCB<span>2k24</span></a>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#alumni">Alumni</a></li>
+                    <li><a href="#stories">Success Stories</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact" class="btn">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Sliding Background -->
+    <section class="hero" id="home">
+        <div class="slideshow">
+            <div class="slide active" style="background-image: url('https://i.ibb.co.com/whMGYRMR/bafscb02.jpg')"></div>
+            
+            <div class="slide" style="background-image: url('https://i.ibb.co.com/99PBqgwW/bafscb04.jpg')"></div>
+            <div class="slide" style="background-image: url('https://i.ibb.co.com/6RRpGmPC/bafscb01.jpg')"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to BAFSCB~2k24 Batch</h1>
+            <h4>BAF SHAHEEN COLLEGE, BOGURA</h4><br/>
+            <a href="#alumni" class="btn">Explore Alumni</a>
+        </div>
+    </section>
+
+    <!-- Featured Alumni Section -->
+    <section class="featured-alumni" id="alumni">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Distinguished Alumni</h2>
+                <p>Meet with the students who have successfully passed out from BAFSCB and got admitted into renowned public universities around the country in session 24-25</p><br/>
+     <marquee> <i>   <p>
+                  Tap on the pictures to visit their Facebook profile
+                </p> </i> </marquee>
+            </div>
+            
+            <div class="alumni-container">
+                <!-- Alumni CardS -->
+                
+                 
+                
+                
+                
+         <div id="206" class="card">
+      <div class="image-container">
+     <a href="https://www.facebook.com/share/1Cgfa1b2fG/"><img src="https://i.ibb.co.com/HD2XQTC4/tafi.jpg" alt="tafi" border="0"></a>  <span class="author-label">Author</span>
+      </div>
+      <div class="name">MD. TAFIMUL ISLAM</div>
+      <div class="bio"> BAFSCB Roll : 54</div>
+      <div class="versity">
+        <svg class="icon" viewBox="0 0 24 24">
+  <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z"/>
+</svg>
+
+        <span class="value"> Bangladesh Agricultural University </span>
+      </div>
+      <div class="subject">
+        <svg class="icon" viewBox="0 0 24 24">
+  <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z"/>
+</svg>
+
+        <span class="value"> Fisheries </span>
+      </div>
+      <div class="gmail">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <span class="value">tafimul009@gmail.com</span>
+      </div>
+    </div>           
+                
+
+
+
+          
+ <div id="139" class="card">
+  <div class="image-container">
+    <a href= target="_blank">
+   <img src="https://i.ibb.co.com/XxWB6jKg/SHUKORNO.jpg" alt="SHUKORNO" border="0">
+    </a>
+  </div>
+  <div class="name">S M Maruf Shukorno</div>
+  <div class="bio">BAFSCB Roll : 79</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z"/>
+    </svg>
+    <span class="value">Dhaka University</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z"/>
+    </svg>
+    <span class="value">Law</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    <span class="value">shukorno2@gmail.com</span>
+  </div>
+</div>               
+                
+<div id="153" class="card">
+  <div class="image-container">
+    <a href="hhttps://www.facebook.com/share/1EeD81ea3b/" target="_blank">
+<img src="https://i.ibb.co.com/Kp8W631B/IMG-20250529-201613.jpg" alt="IMG-20250529-201613" border="0" /></a>
+    </a>
+  </div>
+  <div class="name">Muh Tashib Momin </div>
+  <div class="bio">BAFSCB Roll : 36</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z"/>
+    </svg>
+    <span class="value">Bangladesh Agricultural University </span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z"/>
+    </svg>
+    <span class="value">Veterinary Science and Animal Husbandary </span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <span class="value">tashibmomin@gmail.com</span>
+  </div>
+</div>
+
+
+
+
+<div id="150" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/md.rafiul.127744" target="_blank">
+<img src="https://i.ibb.co.com/wFsJrkLY/rafiul.jpg" alt="rafiul" border="0"></a>
+  </div>
+  <div class="name">Md. Rafiul Islam</div>
+  <div class="bio">BAFSCB Roll : 14</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z"/>
+    </svg>
+    <span class="value">Khulna University of Engineering and Technology(KUET)</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z"/>
+    </svg>
+    <span class="value">Energy science and Engineering (ESE)</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <span class="value">rafiul8639@gmail.com</span>
+  </div>
+</div>
+
+
+<div id="148" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/16syBFUUu7/ " target="shajeeb">
+      <img src="">
+    </a>
+  </div>
+  <div class="name">Ayrin Akter Kakoli </div>
+  <div class="bio">BAFSCB Roll : 50</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z"/>
+    </svg>
+    <span class="value">Patuakhali Science and Technology University </span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z"/>
+    </svg>
+    <span class="value">Agriculture </span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <span class="value">shajeebbhuiyan44@gmail.com</span>
+  </div>
+</div>
+
+
+
+<div id="150" class="card">
+  <div class="image-container">
+    <a href="https://drive.google.com/open?id=1Q2opb-Tw8SXxq7NrElSfocpEAvDRhnud" target="Bakhtiar Hamid">
+   <img src="https://i.ibb.co.com/mFTx8p3t/bakhtoiar.jpg" alt="bakhtoiar" border="0"></a>
+  </div>
+  <div class="name">Bakhtiar Hamid</div>
+  <div class="bio">ID : 46</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Shaheed Tajuddin Ahmad Medical College, Gazipur</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">MBBS</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">bakhtiarakramasad60@gmail.com</span>
+  </div>
+</div>
+
+<div id="151" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/asadbinabbas.aj/" target="Asad Bin Abbas">
+   <img src="https://i.ibb.co.com/7JF5DVBp/FB-IMG-1749789792073.jpg" alt="FB-IMG-1749789792073" border="0" /></a>
+    </a>
+  </div>
+  <div class="name">Asad Bin Abbas</div>
+  <div class="bio">ID : 44</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">GST varsity</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">Biotechnology and Genetic Engineering - BGE</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">ajasadchowdhury@gmail.com</span>
+  </div>
+</div>
+
+<div id="152" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/14QTj6jTo9v/" target="Ahmed Muhtasim Sadeek">
+<img src="https://i.ibb.co.com/39TydnWx/inbound6659675536296064373-Ahmed-Muhtasim-Sadeek.jpg" alt="inbound6659675536296064373-Ahmed-Muhtasim-Sadeek" border="0"></a>
+  </div>
+  <div class="name">Ahmed Muhtasim Sadeek</div>
+  <div class="bio">ID : 105</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">KUET</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">EEE</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">sadeek1103@gmail.com</span>
+  </div>
+</div>
+
+<div id="153" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/17fP1czX3F/" target="Md.Touhid Hasan">
+      <img src="https://i.ibb.co.com/GQvdyp0f/20251027-085416.jpg" alt="20251027-085416" border="0" /></a>
+    </a>
+  </div>
+  <div class="name">Md.Touhid Hasan</div>
+  <div class="bio">ID : 31</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Hajee Mohammad Danesh Science and Technology University, Dinajpur, 5200.</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">Agriculture</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">touhidhasan8657@gmail.com</span>
+  </div>
+</div>
+
+<div id="154" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/17tDq4hqLm/" target="_blank">
+   <img src="https://i.ibb.co.com/Swf8PSNK/inbound5856983693647094749-Rahad-Rahim.jpg" alt="inbound5856983693647094749-Rahad-Rahim" border="0"></a>
+  </div>
+  <div class="name">Md.Rahad-Ur-Rahim</div>
+  <div class="bio">ID : 20006</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Gst</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">Finance & banking</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">rahadrahim7@gmail.com</span>
+  </div>
+</div>
+
+<div id="155" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/17Gxfpiu2j/" target="Shamia Afroze">
+  <img src="https://i.ibb.co.com/PGcTrD81/MYXJ-20251119183652637-save.jpg" alt="MYXJ-20251119183652637-save" border="0" /></a>
+  </div>
+  <div class="name">Shamia Afroze</div>
+  <div class="bio">ID : 23</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Bangladesh University of Professionals</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">Development studies</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">samiaafroze1@gmail.com</span>
+  </div>
+</div>
+
+<div id="156" class="card">
+  <div class="image-container">
+<a href="https://www.facebook.com/share/1CpeC1b8fd/" target="_blank">
+<img src="https://i.ibb.co.com/Df1RCmnm/shafi.jpg" alt="shafi" border="0"></a>
+    </a>
+  </div>
+  <div class="name">MD.Safiquzzaman siam</div>
+  <div class="bio">ID : 131</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Hajee Muhammad Danesh science and technology university, Dinajpur</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">EEE</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">siamsafi45265@gmail.com</span>
+  </div>
+</div>
+
+
+<div id="158" class="card">
+  <div class="image-container">
+    <a href="https://www.facebook.com/share/1Ca42BxvCZ/" target="Zahinul Hakim">
+<img src="https://i.ibb.co.com/Gf8dMkZ8/IMG-20251210-WA0000-Zahin-Zahinul.jpg" alt="IMG-20251210-WA0000-Zahin-Zahinul" border="0"></a>
+  </div>
+  <div class="name">Zahinul Hakim</div>
+  <div class="bio">ID : 70</div>
+  <div class="versity">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 9L3.74 9 12 5l8.26 4L12 12zm-6 4v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2l-8 3-8-3z" />
+    </svg>
+    <span class="value">Shahjalal University of Science and Technology</span>
+  </div>
+  <div class="subject">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M2 4v16c2-1.5 5-2 8-2s6 0.5 8 2V4c-2-1.5-5-2-8-2s-6 0.5-8 2zm8 0c2.5 0 5 .5 6 1.5v12c-1-.7-3.5-1.5-6-1.5s-5 .8-6 1.5v-12C5 4.5 7.5 4 10 4z" />
+    </svg>
+    <span class="value">Geography and Environmental Science (BSC)</span>
+  </div>
+  <div class="gmail">
+    <svg class="icon" viewBox="0 0 24 24">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+    </svg>
+    <span class="value">zahinzahinul@gmail.com</span>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+                
+
+            
+
+        </div>
+               <div class="explore-btn">
+          <center>   <a href="index-alumni-list-24.html" class="btn">Explore All Alumnus </a>
+          </center>
+            </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <!-- <section class="stories-section" id="stories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>Inspiring journeys of our alumni making an impact</p>
+            </div>
+            
+            <div class="stories-container">
+                <div class="story-slider">
+                    <div class="story-slide active">
+                        <div class="story-content">
+                           <img src="https://i.ibb.co.com/YFhzsB6d/IMG-20250928-WA0011.jpg" alt="Success Story 1" class="story-img">
+                            <p class="story-text">আল্লাহর অশেষ রহমত ও মায়ের সাহসে আজ আমি জগন্নাথ বিশ্ববিদ্যালয়ের আইন বিভাগে। ব্রাহ্মণবাড়িয়া সরকারি কলেজ থেকে পথচলা শুরু হলেও এই স্বপ্নটা পূরণ করা সহজ ছিল না। বাবার অনিচ্ছা, আত্মবিশ্বাসের অভাব আর বারবার ব্যর্থতা আমাকে অনেকবার ভেঙেছে।বিইউপি,ঢাকা, জাহাঙ্গীরনগর, চট্টগ্রাম বিশ্ববিদ্যালয়—সবখানেই ব্যর্থ, তবুও হাল ছাড়িনি। মা একা হাতে কোচিংয়ে ভর্তি করান,ভার্সিটি কোচিং এ অনিচ্ছা থাকা সত্ত্বেও বাবা ঠিক ই পাশে ছিলেন। এছাড়াও আমার বোনদের অনেক অবদান ছিলো।  অবশেষে আমি জবির বি-ইউনিটে ২২তম স্থান অর্জন করি। আজ আমি গর্ব করে বলি—“আমি একজন জবিয়ান!” ছোট ভাইবোনদের বলি—“লড়াই চালিয়ে যাও, পড়ে যাও, আবার ওঠো—সাফল্য আসবেই!”</p>
+                            <h4 class="story-author"> কানিজ রুবাইয়া কবির এনি</h4>
+                            <p class="story-position">আইন বিভাগ, জগন্নাথ বিশ্ববিদ্যালয়</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-slide">
+                        <div class="story-content">
+                            <img src="https://i.ibb.co.com/BHym72ps/IMG-20250928-WA0024.jpg" alt="Success Story 2" class="story-img">
+                            <p class="story-text">"সাদা এপ্রোন অর্জনের কিছু গল্প:-
+ছোট বেলা থেকেই আমার স্বপ্ন ছিল ডাক্তার হওয়ার, সাদা এপ্রোন পড়ে মানুষের সেবা করার, এটাই ছিল আমার বড় স্বপ্ন গুলোর একটি। 2019 সালের করোনার সময়ে যখন সারা পৃথিবী কষ্টে ছিল তখন আমার এই স্বপ্নটা আরো দৃঢ় হয়। আমি ছোট বেলা থেকে তেমন মেধাবী ছিলাম না কিন্তু পরিশ্রমী ছিলাম। আল্লাহর উপর ভরসা করে এগিয়ে যেতাম। কলেজে উঠার পর থেকে মেডিকেল ভর্তি পরীক্ষা নিয়ে কিছুটা সিরিয়াস হয়ে যায়। বেসিক কাজ ছাড়া সব সময় নিজের লক্ষ্য অর্জনের জন্য পড়াশোনা চালাই। এই সময়টা এত সহজ ছিল না, অনেকবার ব্যর্থ হয়েছি, হতাশার অন্ধকারে ডুবেছি, কখনো কখনো হাল ছেড়ে দিতে ইচ্ছে করেছে‌ কিন্তু ঐ সময় আমার বড় ভাই, পরিবার, শিক্ষকরা আমাকে সাহস দিয়েছে । আমি আবার নতুন করে শুরু করেছি, আল্লাহর কাছে দোয়া করেছি যেন তিনি আমাকে শক্তি দেন, আমাকে, আমার সর্বোচ্চটা দেওয়ার সুযোগ করে দেন, ধৈর্য, পরিশ্রম এবং দৃঢ় ইচ্ছাশক্তির ফলে আজ আমি গোপালগঞ্জ মেডিকেল কলেজের একজন ছাত্র ।
+প্রিয় অনুজেরা, তোমরা স্বপ্ন অনেক বড় দেখো, বিশ্বাস রাখো, সেই অনুযায়ী পরিশ্রম এবং দৃঢ় সংকল্প যদি রাখতে পারো স্বপ্ন একদিন পূরন হবেই ইনশাআল্লাহ 🥰। আমি পারলে তুমি ও পারবে। একদিন তুমি নিজেই দেখবে, কঠোর পরিশ্রম এবং আল্লাহর উপর ভরসার ফল স্বপ্নের বাস্তবায়ন।"</p>
+                            <h4 class="story-author">Md. Akram Hossen </h4>
+                            <p class="story-position">Gopalgonj Medical College</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-slide">
+                        <div class="story-content">
+                            <img src="https://i.ibb.co.com/S4cCLJ1r/20250604-152725.jpg" alt="Success Story 3" class="story-img">
+                            <p class="story-text">"আসসালামু আলাইকুম, কলেজে পড়ার সময়ই আমার বুয়েটে পড়ার ইচ্ছা ছিল। তাই স্বপ্নপূরণে নিয়মিত পড়ার চেষ্টা করতাম। শুরুতে ফ্যামিলির সাপোর্ট না থাকলেও পরবর্তীতে ওরাই আমাকে অনুপ্রাণিত করে। জুনিয়রদের উদ্দেশ্যে- তোমরা একাডেমিকে মেইন বই পড়ার পাশাপাশি টেস্ট পেপার সলভ করো,নিয়মিত ক্লাস করো। এডমিশনের ক্ষেত্রে প্রশ্নব্যাংক সলভ করা, বেশি বেশি এক্সাম দেওয়া (টাইম ম্যানেজম্যান্টের জন্য), ভুলের খাতা বানানো - এগুলো ভালো ফলাফলের জন্য কার্যকর। তাছাড়া বেশি বেশি প্র্যাক্টিস করো, আত্মবিশ্বাসী হও, সর্বোপরি আল্লাহর উপর বিশ্বাস রাখো। ইনশাআল্লাহ তোমাদের স্বপ্নও একদিন পূরণ হবে।"</p>
+                            <h4 class="story-author">নুছরাত জাহান তাসফিয়া</h4>
+                            <p class="story-position">শিল্প ও উৎপাদন প্রকৌশল বিভাগ,
+বাংলাদেশ প্রকৌশল বিশ্ববিদ্যালয়</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Gallery</h2>
+                <p>Memories from campus life and alumni events</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                 <img src="https://i.ibb.co.com/99PBqgwW/bafscb04.jpg" alt="bafscb04" border="0">    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                 <img src="https://i.ibb.co.com/whMGYRMR/bafscb02.jpg" alt="bafscb02" border="0">  <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                
+
+                                <div class="gallery-item">
+        <img src="https://i.ibb.co.com/6RRpGmPC/bafscb01.jpg" alt="bafscb01" border="0">  <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+<img src="https://i.ibb.co.com/r2V53T2n/bafscb06.jpg" alt="bafscb06" border="0"> <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                
+                
+                
+    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About BAFSCB~2K24</h3>
+                    <p>We are the students of HSC-24 batch of BAF Shaheen College ,Bogura .</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#alumni">Alumni Directory</a></li>
+                        <li><a href="#stories">Success Stories</a></li>
+                        <li><a href="#gallery">Photo Gallery</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Career Services</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i>  BAF Shaheen College ,Bogura, Rajshahi , Bangladesh </li>
+                        <li><i class="fas fa-phone"></i> +880 1317-802638 </li>
+                        <li><i class="fas fa-envelope"></i> tafi009@gmail.com    </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; All rights reserved. </p>
+              <p>
+                Authored By - MD. TAFIMUL ISLAM 
+              </p>
+                <p>
+                  Developed By ~ <a href="https://mdiks23.netlify.app" style="color: coral;">MD. IMTIAZ KHONDOKAR SUPTO</a>
+                </p>
+                <p>
+                  Developed on : 13th December,2025
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Sliding Background
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        // Change slide every 5 seconds
+        setInterval(nextSlide, 5000);
+        
+        // Success Stories Slider
+        let currentStory = 0;
+        const storySlides = document.querySelectorAll('.story-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        function showStory(n) {
+            storySlides.forEach(slide => slide.classList.remove('active'));
+            currentStory = (n + storySlides.length) % storySlides.length;
+            storySlides[currentStory].classList.add('active');
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            showStory(currentStory - 1);
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            showStory(currentStory + 1);
+        });
+        
+        // Auto-advance stories every 7 seconds
+        setInterval(() => {
+            showStory(currentStory + 1);
+        }, 7000);
+        
+        // Scroll animations for alumni cards
+        function checkVisibility() {
+            const alumniCards = document.querySelectorAll('.alumni-card');
+            alumniCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('load', checkVisibility);
+    </script>
+</body>
+</html>
